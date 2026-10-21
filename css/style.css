@@ -1,0 +1,161 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  color: #222;
+  background-color: #f5f5f5;
+}
+
+header {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: white;
+  background-color: #24466b;
+}
+
+h1 {
+  margin: 0;
+}
+
+header p {
+  margin-bottom: 0;
+}
+
+main {
+  width: 90%;
+  max-width: 70rem;
+  margin: 2rem auto;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.search-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+input,
+button {
+  padding: 0.7rem;
+  font: inherit;
+  border: 0.0625rem solid #777;
+}
+
+input {
+  flex: 1 1 14rem;
+  min-width: 0;
+  background-color: white;
+}
+
+button {
+  color: white;
+  background-color: #24466b;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #17324f;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+:focus-visible {
+  outline: 0.2rem solid #a34200;
+  outline-offset: 0.2rem;
+}
+
+#status-message {
+  margin: 1.5rem 0;
+  padding: 0.8rem;
+  background-color: #e5edf5;
+  overflow-wrap: anywhere;
+}
+
+#status-message[data-state="loading"] {
+  color: #614500;
+  background-color: #fff0bd;
+}
+
+#status-message[data-state="empty"] {
+  color: #444;
+  background-color: #e5e5e5;
+}
+
+#status-message[data-state="error"] {
+  color: #8c2020;
+  background-color: #ffe1e1;
+}
+
+#status-message[data-state="offline"] {
+  color: #703500;
+  background-color: #ffe8ce;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+}
+
+.book-card {
+  min-width: 0;
+  padding: 1rem;
+  border: 0.0625rem solid #ccc;
+  background-color: white;
+  overflow-wrap: anywhere;
+}
+
+.book-card h3 {
+  margin: 0.8rem 0;
+}
+
+.book-card p {
+  margin: 0.5rem 0;
+}
+
+.book-cover,
+.no-cover {
+  width: 100%;
+  height: 14rem;
+  background-color: #eee;
+}
+
+.book-cover {
+  display: block;
+  object-fit: contain;
+}
+
+.no-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+}
+
+footer {
+  padding: 1rem;
+  text-align: center;
+  color: #444;
+}
+
+@media (max-width: 35rem) {
+  .books-grid {
+    grid-template-columns: 1fr;
+  }
+
+  button {
+    width: 100%;
+  }
+}
