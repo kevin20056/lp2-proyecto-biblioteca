@@ -1,8 +1,9 @@
+const API = "https://openlibrary.org/search.json?q=fiction";
+
 const booksContainer = document.querySelector("#books-container");
 const message = document.querySelector("#status-message");
 const form = document.querySelector("#search-form");
 const input = document.querySelector("#search-input");
-
 const prevButton = document.querySelector("#prev");
 const nextButton = document.querySelector("#next");
 const pageNumber = document.querySelector("#page-number");
@@ -12,23 +13,16 @@ let prevPage = null;
 let nextPage = null;
 
 function createCard(book) {
-  let cover = "https://via.placeholder.com/180x260?text=Sin+Portada";
-
-  if (book.cover_i) {
-    cover = `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
-  }
+  const cover = book.cover_i
+    ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
+    : "https://via.placeholder.com/180x260?text=Sin+Portada";
 
   return `
     <article class="book-card">
-      <img
-        class="book-cover"
-        src="${cover}"
-        alt="${book.title}"
-      >
-
+      <img class="book-cover" src="${cover}" alt="${book.title}">
       <div class="container">
         <h3>${book.title}</h3>
-        <p>${book.author_name ? book.author_name[0] : ""}</p>
+        <p>${book.author_name?.[0] || ""}</p>
         <p>${book.first_publish_year || ""}</p>
       </div>
     </article>
@@ -42,16 +36,29 @@ function showBooks(books) {
     .join("");
 }
 
+function showMessage(text) {
+  message.textContent = text;
+}
+
 function updateButtons() {
   prevButton.disabled = !prevPage;
   nextButton.disabled = !nextPage;
 }
 
-async function getBooks(url) {
-  try {
-    message.textContent = "Cargando libros...";
+async function loadBooks(url) {
+  showMessage("Cargando libros...");
+  booksContainer.innerHTML = "";
+  prevButton.disabled = true;
+  nextButton.disabled = true;
 
+  try {
     const response = await fetch(url);
+
+    if (!response.ok) {
+      showMessage(`Error ${response.status}: no se pudieron cargar los libros.`);
+      return;
+    }
+
     const data = await response.json();
 
     showBooks(data.docs);
@@ -59,62 +66,46 @@ async function getBooks(url) {
     const page =
       Number(new URL(url).searchParams.get("page")) || 1;
 
-    const totalPages =
-      Math.ceil(data.numFound / 24);
+    const totalPages = Math.ceil(data.numFound / 24);
 
-    pageNumber.textContent =
-      `Página ${page} de ${totalPages}`;
+    pageNumber.textContent = `Página ${page} de ${totalPages}`;
 
-    if (page > 1) {
-      prevPage =
-        `https://openlibrary.org/search.json?q=${encodeURIComponent(currentQuery)}&page=${page - 1}`;
-    } else {
-      prevPage = null;
-    }
+    prevPage =
+      page > 1
+        ? `https://openlibrary.org/search.json?q=${encodeURIComponent(currentQuery)}&page=${page - 1}`
+        : null;
 
-    if (page < totalPages) {
-      nextPage =
-        `https://openlibrary.org/search.json?q=${encodeURIComponent(currentQuery)}&page=${page + 1}`;
-    } else {
-      nextPage = null;
-    }
+    nextPage =
+      page < totalPages
+        ? `https://openlibrary.org/search.json?q=${encodeURIComponent(currentQuery)}&page=${page + 1}`
+        : null;
 
-    updateButtons();
-
-    message.textContent =
-      "Resultados encontrados: " + data.numFound;
-
+    showMessage(`Resultados encontrados: ${data.numFound}`);
   } catch (error) {
-    console.error(error);
-    message.textContent =
-      "Error al cargar los libros";
+    showMessage("Error al cargar los libros.");
+  } finally {
+    updateButtons();
   }
 }
 
-form.addEventListener("submit", function (event) {
+form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   currentQuery = input.value.trim();
 
   if (currentQuery) {
-    getBooks(
+    loadBooks(
       `https://openlibrary.org/search.json?q=${encodeURIComponent(currentQuery)}`
     );
   }
 });
 
-prevButton.addEventListener("click", function () {
-  if (prevPage) {
-    getBooks(prevPage);
-  }
+prevButton.addEventListener("click", () => {
+  if (prevPage) loadBooks(prevPage);
 });
 
-nextButton.addEventListener("click", function () {
-  if (nextPage) {
-    getBooks(nextPage);
-  }
+nextButton.addEventListener("click", () => {
+  if (nextPage) loadBooks(nextPage);
 });
 
-getBooks(
-  `https://openlibrary.org/search.json?q=${encodeURIComponent(currentQuery)}`
-);
+loadBooks(API);
