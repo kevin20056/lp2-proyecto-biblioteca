@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca - Open Library</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <script type="module" src="./js/main.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Biblioteca</h1>
+    <p>Busca libros por título, autor o tema.</p>
+  </header>
+
+  <main>
+    <form id="search-form">
+      <label for="search-input">¿Qué libro quieres buscar?</label>
+
+      <div class="search-controls">
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Ejemplo: cien años"
+          value="cien años"
+          required
+        >
+        <button type="submit" id="search-button">Buscar</button>
+      </div>
+    </form>
+
+    <p id="status-message" role="status" aria-live="polite"></p>
+
+    <section aria-labelledby="results-title">
+      <h2 id="results-title">Resultados</h2>
+      <div id="books-container" class="books-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Datos de Open Library · Equipo 1</p>
+  </footer>
+</body>
+</html>
