@@ -28,8 +28,8 @@ function createCard(book) {
 
       <div class="container">
         <h3>${book.title}</h3>
-        <p>Autor: ${author}</p>
-        <p>Año: ${year}</p>
+        <p>${author}</p>
+        <p>${year}</p>
       </div>
     </article>
   `;
@@ -37,20 +37,14 @@ function createCard(book) {
 
 function showBooks(books) {
   booksContainer.innerHTML = books
-    .slice(0, 20)
     .map(createCard)
     .join("");
 }
 
-function showMessage(text) {
-  message.textContent = text;
-}
-
-async function loadBooks(query) {
-  booksContainer.innerHTML = "";
-  showMessage("Buscando libros...");
-
+async function getBooks(query) {
   try {
+    message.textContent = "Cargando libros...";
+
     const response = await fetch(
       `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`
     );
@@ -59,12 +53,11 @@ async function loadBooks(query) {
 
     showBooks(data.docs);
 
-    showMessage(
-      `Resultados encontrados: ${data.docs.length}`
-    );
+    message.textContent =
+      `${data.docs.length} resultados encontrados`;
   } catch (error) {
     console.error(error);
-    showMessage("Error al cargar los libros");
+    message.textContent = "Error al cargar los libros";
   }
 }
 
@@ -73,10 +66,10 @@ form.addEventListener("submit", function (event) {
 
   const query = input.value.trim();
 
-  if (query !== "") {
-    loadBooks(query);
+  if (query) {
+    getBooks(query);
   }
 });
 
-// Libros iniciales variados
-loadBooks("fiction");
+// Libros iniciales
+getBooks("fiction");
