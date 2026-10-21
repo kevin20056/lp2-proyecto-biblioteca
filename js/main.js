@@ -12,21 +12,19 @@ let prevPage = null;
 let nextPage = null;
 
 function createCard(book) {
-  let image = "";
+  let cover = "https://via.placeholder.com/180x260?text=Sin+Portada";
 
   if (book.cover_i) {
-    image = `
-      <img
-        class="book-cover"
-        src="https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg"
-        alt="${book.title}"
-      >
-    `;
+    cover = `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
   }
 
   return `
     <article class="book-card">
-      ${image}
+      <img
+        class="book-cover"
+        src="${cover}"
+        alt="${book.title}"
+      >
 
       <div class="container">
         <h3>${book.title}</h3>
@@ -85,6 +83,7 @@ async function getBooks(url) {
 
     message.textContent =
       "Resultados encontrados: " + data.numFound;
+
   } catch (error) {
     console.error(error);
     message.textContent =
