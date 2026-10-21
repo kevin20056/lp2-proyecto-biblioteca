@@ -13,9 +13,13 @@ let prevPage = null;
 let nextPage = null;
 
 function createCard(book) {
-  const cover = book.cover_i
-    ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`
-    : "https://via.placeholder.com/180x260?text=Sin+Portada";
+  let cover;
+
+  if (book.cover_i) {
+    cover = `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
+  } else {
+    cover = "https://via.placeholder.com/180x260?text=Sin+Portada";
+  }
 
   return `
     <article class="book-card">
@@ -70,15 +74,17 @@ async function loadBooks(url) {
 
     pageNumber.textContent = `Página ${page} de ${totalPages}`;
 
-    prevPage =
-      page > 1
-        ? `https://openlibrary.org/search.json?q=${encodeURIComponent(currentQuery)}&page=${page - 1}`
-        : null;
+    if (page > 1) {
+      prevPage = `https://openlibrary.org/search.json?q=${encodeURIComponent(currentQuery)}&page=${page - 1}`;
+    } else {
+      prevPage = null;
+    }
 
-    nextPage =
-      page < totalPages
-        ? `https://openlibrary.org/search.json?q=${encodeURIComponent(currentQuery)}&page=${page + 1}`
-        : null;
+    if (page < totalPages) {
+      nextPage = `https://openlibrary.org/search.json?q=${encodeURIComponent(currentQuery)}&page=${page + 1}`;
+    } else {
+      nextPage = null;
+    }
 
     showMessage(`Resultados encontrados: ${data.numFound}`);
   } catch (error) {
