@@ -21,7 +21,7 @@ function createText(tag, text) {
 function createImage(path, description) {
   //Crea un cuadrito de respaldo por si el libro no tiene imagen, usando la fábrica de texto
   const fallback = createText("div", `Sin dato: ${description}`);
-  //Le asigna la clase de CSS para darle diseño al cuadrito de respaldo - EMG - Fallback
+  //Le asigna css respaldo
   fallback.className = "no-cover";
 
   //Si la API no mandó ninguna ruta de imagen, se detiene y devuelve el cuadrito de respaldo
