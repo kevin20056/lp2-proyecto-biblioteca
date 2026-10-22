@@ -11,6 +11,7 @@ export function clearBooks() {
   container.replaceChildren();
 }
 
+//Limpia y crea
 function createText(tag, text) {
   const element = document.createElement(tag);
   element.textContent = text;
