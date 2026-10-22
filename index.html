@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Biblioteca - Open Library</title>
+  <title>Biblioteca</title>
   <link rel="stylesheet" href="./css/style.css">
   <script type="module" src="./js/main.js"></script>
 </head>
@@ -16,16 +16,10 @@
   <main>
     <form id="search-form">
       <label for="search-input">¿Qué libro quieres buscar?</label>
-
       <div class="search-controls">
-        <input
-          type="search"
-          id="search-input"
-          placeholder="Ejemplo: cien años"
-          value="cien años"
-          required
-        >
-        <button type="submit" id="search-button">Buscar</button>
+        <input type="search" id="search-input"
+               value="cien años" placeholder="Título, autor o tema" required>
+        <button id="search-button" type="submit">Buscar</button>
       </div>
     </form>
 

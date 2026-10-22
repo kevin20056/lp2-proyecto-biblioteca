@@ -4,14 +4,14 @@ export async function searchBooks(query) {
   const params = new URLSearchParams({
     q: query,
     limit: "24",
-    fields: "key,title,author_name,first_publish_year,cover_i"
+    fields: "title,author_name,author_key,first_publish_year,cover_i"
   });
 
   const response = await fetch(`${API_URL}?${params}`, {
     cache: "no-store"
   });
 
-  // fetch no lanza un error automáticamente por un 404 o 500.
+  // fetch no lanza un error por un código HTTP como 404 o 500.
   if (!response.ok) {
     const error = new Error("Error del servidor");
     error.status = response.status;
@@ -21,7 +21,7 @@ export async function searchBooks(query) {
   const data = await response.json();
 
   if (!Array.isArray(data.docs)) {
-    throw new Error("La API devolvió datos inesperados.");
+    throw new Error("Datos inesperados");
   }
 
   return {
