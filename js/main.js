@@ -5,7 +5,7 @@ import { showBooks, clearBooks, showMessage } from "./ui.js";
 const form = document.querySelector("#search-form");
 //Barra de búsqueda
 const input = document.querySelector("#search-input");
-//Evita 
+//Evita
 const button = document.querySelector("#search-button");
 
 async function loadBooks() {
@@ -14,7 +14,7 @@ async function loadBooks() {
 
   // Obtiene el texto ingresado por el usuario y elimina los espacios en blanco sobrantes
   const query = input.value.trim();
-  
+
   // Limpia los resultados anteriores de la pantalla antes de realizar la nueva búsqueda
   clearBooks();
 

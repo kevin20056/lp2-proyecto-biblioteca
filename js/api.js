@@ -5,12 +5,12 @@ export async function searchBooks(query) {
   const params = new URLSearchParams({
     q: query,
     limit: "24",
-    fields: "title,author_name,author_key,first_publish_year,cover_i"
+    fields: "title,author_name,author_key,first_publish_year,cover_i",
   });
 
   // Salimos a internet a hacer la petición con fetch, sin usar caché para que siempre traiga datos frescos
   const response = await fetch(`${API_URL}?${params}`, {
-    cache: "no-store"
+    cache: "no-store",
   });
 
   // El fetch no avisa solito si el servidor falló (tipo 404 o 500), así que lo revisamos a mano y lanzamos el error si pifió
@@ -31,6 +31,6 @@ export async function searchBooks(query) {
   // Devolvemos ya empaquetado un objeto con la lista de libros y el número total que se encontró
   return {
     books: data.docs,
-    total: data.numFound ?? data.num_found ?? data.docs.length
+    total: data.numFound ?? data.num_found ?? data.docs.length,
   };
 }
